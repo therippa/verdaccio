@@ -31,8 +31,7 @@ class Home extends Component {
       message: ''
     },
     loading: true,
-    fistTime: true,
-    query: ''
+    fistTime: true
   };
 
   constructor(props) {

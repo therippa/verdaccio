@@ -7,31 +7,32 @@ import logo from './utils/logo';
 import { makeLogin, isTokenExpire } from './utils/login';
 
 import Header from './components/Header';
-import Footer from './components/Footer';
+// import Footer from './components/Footer';
 import LoginModal from './components/Login';
 
-import Route from './router';
+// import Route from './router';
 
 import './styles/main.scss';
 import 'normalize.css';
 
 export default class App extends Component {
-  state = {
-    error: {},
-    logoUrl: '',
-    user: {},
-    scope: (window.VERDACCIO_SCOPE) ? `${window.VERDACCIO_SCOPE}:` : '',
-    showLoginModal: false,
-    isUserLoggedIn: false
-  };
-
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
     this.toggleLoginModal = this.toggleLoginModal.bind(this);
     this.doLogin = this.doLogin.bind(this);
     this.loadLogo = this.loadLogo.bind(this);
     this.isUserAlreadyLoggedIn = this.isUserAlreadyLoggedIn.bind(this);
+    this.state = {
+      error: {},
+      logoUrl: '',
+      user: {},
+      scope: (window.VERDACCIO_SCOPE) ? `${window.VERDACCIO_SCOPE}:` : '',
+      showLoginModal: false,
+      isUserLoggedIn: false,
+      search: ""
+    };
   }
 
   componentDidMount() {
@@ -118,43 +119,48 @@ export default class App extends Component {
     });
   }
 
+  handleSearch(event) {
+    this.setState({
+      search: event.target.value
+    });
+  }
+
   renderHeader() {
-    const {
-      logoUrl,
-      user,
-      scope,
-    } = this.state;
-    return <Header
-      logo={logoUrl}
-      username={user.username}
-      scope={scope}
-      toggleLoginModal={this.toggleLoginModal}
-      handleLogout={this.handleLogout}
-    />;
+    const { logoUrl, user, scope, search } = this.state;
+    return (
+      <Header
+        logo={logoUrl}
+        username={user.username}
+        scope={scope}
+        toggleLoginModal={this.toggleLoginModal}
+        search={search}
+        onSearch={this.handleSearch}
+        onLogout={this.handleLogout}
+      />
+    );
   }
 
   renderLoginModal() {
-    const {
-      error,
-      showLoginModal
-    } = this.state;
-    return <LoginModal
-      visibility={showLoginModal}
-      error={error}
-      onChange={this.setUsernameAndPassword}
-      onCancel={this.toggleLoginModal}
-      onSubmit={this.doLogin}
-    />;
+    const { error, showLoginModal } = this.state;
+    return (
+      <LoginModal
+        visibility={showLoginModal}
+        error={error}
+        onChange={this.setUsernameAndPassword}
+        onCancel={this.toggleLoginModal}
+        onSubmit={this.doLogin}
+      />
+    );
   }
 
   render() {
-    const { isUserLoggedIn } = this.state;
+    // const { isUserLoggedIn } = this.state;
     return (
       <div className="page-full-height">
         {this.renderHeader()}
-        {this.renderLoginModal()}
+        {/* {this.renderLoginModal()}
         <Route isUserLoggedIn={isUserLoggedIn} />
-        <Footer />
+        <Footer /> */}
       </div>
     );
   }

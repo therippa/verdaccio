@@ -5,7 +5,7 @@
 
 export interface IProps {
   username?: string;
-  handleLogout: Function;
+  onLogout: Function;
   toggleLoginModal: Function;
   scope: string;
 }

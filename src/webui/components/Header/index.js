@@ -13,6 +13,7 @@ import Help from '@material-ui/icons/Help';
 import Tooltip from '@material-ui/core/Tooltip/index';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
+import Autocomplete from '../../components/Autocomplete';
 import { getRegistryURL } from '../../utils/url';
 import Link from '../Link';
 import Logo from '../Logo';
@@ -21,7 +22,7 @@ import RegistryInfoDialog from '../RegistryInfoDialog';
 
 import type { Node } from 'react';
 import { IProps, IState } from './interfaces';
-import { Wrapper, InnerWrapper } from './styles';
+import { Wrapper, InnerWrapper, LeftSide } from './styles';
 
 class Header extends Component<IProps, IState> {
   handleLoggedInMenu: Function;
@@ -102,9 +103,12 @@ class Header extends Component<IProps, IState> {
 
   renderLeftSide(): Node {
     return (
-      <Link to="/">
-        <Logo />
-      </Link>
+      <LeftSide>
+        <Link to="/">
+          <Logo />
+        </Link>
+        <Autocomplete />
+      </LeftSide>
     );
   }
 
@@ -138,7 +142,7 @@ class Header extends Component<IProps, IState> {
    * render popover menu
    */
   renderMenu(): Node {
-    const { handleLogout } = this.props;
+    const { onLogout } = this.props;
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
     return (
@@ -160,7 +164,7 @@ class Header extends Component<IProps, IState> {
           open={open}
           onClose={this.handleLoggedInMenuClose}
         >
-          <MenuItem onClick={handleLogout} id="header--button-logout">
+          <MenuItem onClick={onLogout} id="header--button-logout">
             Logout
           </MenuItem>
         </Menu>
